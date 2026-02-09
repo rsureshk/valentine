@@ -1,152 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>For My Bangaram ❤️</title>
-  <style>
-    body {
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      margin: 0;
-    }
+<meta charset="UTF-8">
+<title>For My Bangaram ❤️</title>
+<style>
+body{
+  margin:0;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  font-family:Arial,sans-serif;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
-    .card {
-      background: white;
-      padding: 30px 40px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-      z-index: 10;
-      width: 350px;
-    }
+.container{
+  display:flex;
+  gap:40px;
+  align-items:center;
+}
 
-    h1 {
-      color: #ff4d6d;
-      margin-bottom: 15px;
-    }
+.card{
+  background:#fff;
+  padding:25px 35px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
 
-    button {
-      padding: 12px 28px;
-      font-size: 16px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      margin: 10px;
-    }
+h1{color:#ff4d6d;margin-bottom:10px;}
 
-    .yes { background: #ff4d6d; color: white; }
-    .no  { background: #aaa; color: white; position: absolute; }
+button{
+  padding:10px 25px;
+  border:none;
+  border-radius:25px;
+  font-size:16px;
+  margin:10px;
+  cursor:pointer;
+}
 
-    .spinner-box {
-      margin-top: 15px;
-    }
+.yes{background:#ff4d6d;color:#fff;}
+.no{background:#aaa;color:#fff;position:absolute;}
 
-    #gift {
-      font-size: 22px;
-      font-weight: bold;
-      color: #ff4d6d;
-      margin: 15px 0;
-      min-height: 30px;
-    }
+#wheelBox{
+  position:relative;
+}
 
-    .spin-btn {
-      background: #ff758c;
-      color: white;
-    }
+#wheel{
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  border:10px solid white;
+  background:conic-gradient(
+    #ff4d6d 0deg 36deg,
+    #ff85a1 36deg 72deg,
+    #ffc2d1 72deg 108deg,
+    #ffb3c6 108deg 144deg,
+    #ff758c 144deg 180deg,
+    #ff9aa2 180deg 216deg,
+    #ffb7c5 216deg 252deg,
+    #ffc6d0 252deg 288deg,
+    #ff4d6d 288deg 324deg,
+    #ff85a1 324deg 360deg
+  );
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:transform 4s cubic-bezier(0.17,0.67,0.2,1);
+}
 
-    .heart {
-      position: fixed;
-      color: rgba(255,255,255,0.8);
-      font-size: 24px;
-      animation: floatUp 6s linear infinite;
-      pointer-events: none;
-    }
+.pointer{
+  width:0;
+  height:0;
+  border-left:15px solid transparent;
+  border-right:15px solid transparent;
+  border-bottom:25px solid white;
+  position:absolute;
+  top:-25px;
+  left:50%;
+  transform:translateX(-50%);
+}
 
-    @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 0; }
-      10% { opacity: 1; }
-      100% { transform: translateY(-110vh); opacity: 0; }
-    }
-  </style>
+.spinBtn{
+  background:#fff;
+  border-radius:50%;
+  width:70px;
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  cursor:pointer;
+  color:#ff4d6d;
+}
+
+.heart{
+  position:fixed;
+  color:rgba(255,255,255,.8);
+  font-size:24px;
+  animation:float 6s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes float{
+  0%{transform:translateY(0);opacity:0;}
+  10%{opacity:1;}
+  100%{transform:translateY(-110vh);opacity:0;}
+}
+</style>
 </head>
 <body>
 
+<div class="container">
   <div class="card">
     <h1>Will You Be My Valentine? 💕</h1>
-
     <button class="yes" onclick="yesClick()">Yes 💖</button>
     <button class="no" id="noBtn">No 😢</button>
-
-    <div class="spinner-box">
-      <h3>Spin & Win Your Gift 🎁</h3>
-      <div id="gift">🎁</div>
-      <button class="spin-btn" onclick="spinGift()">Spin 🎡</button>
-    </div>
   </div>
 
+  <div id="wheelBox">
+    <div class="pointer"></div>
+    <div id="wheel">
+      <div class="spinBtn" onclick="spin()">SPIN</div>
+    </div>
+  </div>
+</div>
+
 <script>
-  // Moving NO button
-  const noBtn = document.getElementById("noBtn");
-  noBtn.addEventListener("mouseover", moveButton);
+const gifts=[
+"📱 Phone","💍 Ring","⌚ Smart Watch","🎧 AirPods","✈️ Trip",
+"👜 Bag","👗 Shopping","🍫 Chocolates","🌹 Roses","💄 Makeup"
+];
 
-  function moveButton() {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-  }
+let angle=0;
 
-  // Romantic popup
-  function yesClick() {
-    alert("Bangaram ❤️\n\nCan you give me a baby this year? 👶🥰\n\nI love you forever 💕");
-  }
+function spin(){
+  let random=Math.floor(Math.random()*360)+720;
+  angle+=random;
+  document.getElementById("wheel").style.transform=`rotate(${angle}deg)`;
 
-  // Gift Spinner (NO 'Any Gift')
-  const gifts = [
-    "📱 New Phone",
-    "💍 Diamond Ring",
-    "⌚ Smart Watch",
-    "🎧 AirPods",
-    "💄 Makeup Kit",
-    "👜 Branded Bag",
-    "👗 Shopping Day",
-    "✈️ Romantic Trip",
-    "🍫 Chocolates Box",
-    "🌹 100 Roses Bouquet"
-  ];
+  setTimeout(()=>{
+    const gift = gifts[Math.floor(((angle%360)/36))];
+    alert("🎁 Bangaram won: " + gift + " 💖");
+  },4000);
+}
 
-  function spinGift() {
-    const gift = document.getElementById("gift");
-    let count = 0;
+// Moving NO button
+const noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",()=>{
+  const x=Math.random()*(window.innerWidth-100);
+  const y=Math.random()*(window.innerHeight-50);
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+});
 
-    const interval = setInterval(() => {
-      gift.innerText = gifts[Math.floor(Math.random() * gifts.length)];
-      count++;
-      if (count > 20) {
-        clearInterval(interval);
-      }
-    }, 100);
-  }
+// Romantic popup
+function yesClick(){
+  alert("Bangaram ❤️\n\nCan you give me a baby this year? 👶🥰\n\nI love you forever 💕");
+}
 
-  // Floating hearts
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 20 + 20 + "px";
-    heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 7000);
-  }
-
-  setInterval(createHeart, 300);
+// Floating hearts
+function heart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=Math.random()*20+20+"px";
+  h.style.animationDuration=Math.random()*3+4+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+}
+setInterval(heart,300);
 </script>
 
 </body>
