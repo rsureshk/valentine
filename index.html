@@ -2,78 +2,151 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Valentine Proposal 💖</title>
+  <title>For My Bangaram ❤️</title>
   <style>
     body {
       background: linear-gradient(135deg, #ff758c, #ff7eb3);
       height: 100vh;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: Arial, sans-serif;
       margin: 0;
-      overflow: hidden;
     }
 
     .card {
       background: white;
-      padding: 40px;
-      border-radius: 15px;
+      padding: 30px 40px;
+      border-radius: 20px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      z-index: 10;
+      width: 350px;
     }
 
     h1 {
       color: #ff4d6d;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     button {
-      padding: 12px 30px;
-      font-size: 18px;
+      padding: 12px 28px;
+      font-size: 16px;
       border: none;
       border-radius: 30px;
       cursor: pointer;
       margin: 10px;
-      transition: 0.2s ease;
     }
 
-    .yes {
-      background: #ff4d6d;
+    .yes { background: #ff4d6d; color: white; }
+    .no  { background: #aaa; color: white; position: absolute; }
+
+    .spinner-box {
+      margin-top: 15px;
+    }
+
+    #gift {
+      font-size: 22px;
+      font-weight: bold;
+      color: #ff4d6d;
+      margin: 15px 0;
+      min-height: 30px;
+    }
+
+    .spin-btn {
+      background: #ff758c;
       color: white;
     }
 
-    .no {
-      background: #aaa;
-      color: white;
-      position: absolute;
+    .heart {
+      position: fixed;
+      color: rgba(255,255,255,0.8);
+      font-size: 24px;
+      animation: floatUp 6s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-110vh); opacity: 0; }
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h1>My love, can you give me the cutest baby this year? 💕👶</h1>
+    <h1>Will You Be My Valentine? 💕</h1>
+
     <button class="yes" onclick="yesClick()">Yes 💖</button>
     <button class="no" id="noBtn">No 😢</button>
+
+    <div class="spinner-box">
+      <h3>Spin & Win Your Gift 🎁</h3>
+      <div id="gift">🎁</div>
+      <button class="spin-btn" onclick="spinGift()">Spin 🎡</button>
+    </div>
   </div>
 
 <script>
+  // Moving NO button
   const noBtn = document.getElementById("noBtn");
-
   noBtn.addEventListener("mouseover", moveButton);
 
   function moveButton() {
     const x = Math.random() * (window.innerWidth - 100);
     const y = Math.random() * (window.innerHeight - 50);
-
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
   }
 
+  // Romantic popup
   function yesClick() {
-    alert("Yayyyy 😍 I love you❤️ bujji bangaram!!! Happy Valentine's Day!");
+    alert("Bangaram ❤️\n\nCan you give me a baby this year? 👶🥰\n\nI love you forever 💕");
   }
+
+  // Gift Spinner (NO 'Any Gift')
+  const gifts = [
+    "📱 New Phone",
+    "💍 Diamond Ring",
+    "⌚ Smart Watch",
+    "🎧 AirPods",
+    "💄 Makeup Kit",
+    "👜 Branded Bag",
+    "👗 Shopping Day",
+    "✈️ Romantic Trip",
+    "🍫 Chocolates Box",
+    "🌹 100 Roses Bouquet"
+  ];
+
+  function spinGift() {
+    const gift = document.getElementById("gift");
+    let count = 0;
+
+    const interval = setInterval(() => {
+      gift.innerText = gifts[Math.floor(Math.random() * gifts.length)];
+      count++;
+      if (count > 20) {
+        clearInterval(interval);
+      }
+    }, 100);
+  }
+
+  // Floating hearts
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 20 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
+  }
+
+  setInterval(createHeart, 300);
 </script>
 
 </body>
